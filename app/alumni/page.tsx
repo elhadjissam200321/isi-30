@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
+import Image from "next/image"
 import { ChevronRight, Briefcase, MapPin, GraduationCap, Quote, Linkedin } from "lucide-react"
 
 function PageHero({ title, subtitle, breadcrumb }: { title: string; subtitle: string; breadcrumb: string }) {
