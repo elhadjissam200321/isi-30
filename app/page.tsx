@@ -64,18 +64,19 @@ function NeuralBg({ className = "" }: { className?: string }) {
 
 // Fetch dynamic data
 async function getHomepageData() {
-  const [homepage, alumni, partners, config] = await Promise.all([
+  const [homepage, alumni, partners, config, alumniCompanies] = await Promise.all([
     import("@/data/homepage.json").then(m => m.default),
     import("@/data/alumni.json").then(m => m.default),
     import("@/data/partners.json").then(m => m.default),
-    import("@/data/site-config.json").then(m => m.default)
+    import("@/data/site-config.json").then(m => m.default),
+    import("@/data/alumni-companies.json").then(m => m.default)
   ])
-  return { homepage, alumni, partners, config }
+  return { homepage, alumni, partners, config, alumniCompanies }
 }
 
 export default async function HomePage() {
   const views = await getViews()
-  const { homepage, alumni, partners, config } = await getHomepageData()
+  const { homepage, alumni, partners, config, alumniCompanies } = await getHomepageData()
 
   const newsWithViews = Object.values(articles).slice(0, 4).map(item => ({
     ...item,
@@ -90,34 +91,44 @@ export default async function HomePage() {
 
       {/* ── HERO ── */}
       <section className="relative min-h-[120vh] flex items-center overflow-hidden bg-primary">
+        {/* Desktop Hero Image */}
         <Image
           src="/images/hero.png"
           alt="Master ISI Hero"
           fill
-          className="object-cover"
+          className="object-cover hidden sm:block"
+          priority
+          sizes="100vw"
+        />
+        {/* Mobile Hero Image */}
+        <Image
+          src="/images/hero-mobile.png"
+          alt="Master ISI Hero Mobile"
+          fill
+          className="object-cover sm:hidden"
           priority
           sizes="100vw"
         />
         {/* Semi-blur overlay */}
-        <div className="absolute inset-0 bg-primary/40 backdrop-blur-[2px] backdrop-brightness-75" />
+        <div className="absolute inset-0 bg-primary/40" />
 
         <div className="relative z-10 max-w-7xl px-4 sm:px-6 lg:px-8 pt-40 pb-20">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/80 text-xs font-medium px-3 py-1.5 rounded-full mb-6 backdrop-blur-sm">
+            <div suppressHydrationWarning className="reveal-scale delay-100 inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/80 text-xs font-medium px-3 py-1.5 rounded-full mb-6 backdrop-blur-sm">
               <Cpu className="w-3.5 h-3.5" />
               {homepage.hero.badge}
             </div>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight text-balance mb-6">
+            <h1 suppressHydrationWarning className="reveal delay-300 font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight text-balance mb-6">
               {homepage.hero.title}
             </h1>
-            <p className="text-white/80 text-lg leading-relaxed max-w-2xl mb-8">
+            <p suppressHydrationWarning className="reveal delay-500 text-white/80 text-lg leading-relaxed max-w-2xl mb-8">
               {homepage.hero.subtitle || (
                 <>
                   {config.facultyName}, {config.universityName}
                 </>
               )}
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div suppressHydrationWarning className="reveal delay-700 flex flex-wrap gap-4">
               <a
                 href="https://isi.badrabba.com/"
                 target="_blank"
@@ -348,7 +359,7 @@ export default async function HomePage() {
 
 
       {/* ── ALUMNI COMPANIES CAROUSEL ── */}
-      <AlumniCarousel />
+      <AlumniCarousel companies={alumniCompanies} />
 
       {/* ── PARTNERS ── */}
       <section id="partners" className="py-16 bg-background overflow-hidden">

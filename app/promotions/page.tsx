@@ -4,46 +4,11 @@ import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ChevronRight, GraduationCap, Users, Calendar, Search } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
-const promotions = [
-    {
-        year: "2025-2026",
-        name: "promotion 2026",
-        students: [
-            "ABBA MOHSSINE", "ABDELHAMID AMCHICH", "ABDELHAMID EL BOUNI", "ABOUALI SOUHAIL", "ADIL EL ADRY",
-            "AFYF ZAKARIA", "AIT BOUZID SARA", "AIT ELMIR IMANE", "AOUAJ YOUSSEF", "ARWA ZOUHAL",
-            "AYA BECHCHAR", "AYA SABRI", "AYOUB EL BAHRI", "AZBEG SAFAA", "BAHMED CHAKIR",
-            "BARRACH NAIMA", "BELAROUCHE MALAK", "BERRADA ZAKARIA", "BOUDRIBILA ZAKARIA", "BOUJLAIB OUMAIMA",
-            "BOUTRIQ BOUCHRA", "CHAOUI SARA", "DAHOU NOUREDDINE", "DAKA SIYABONGA NKOSI", "DKAIR MOHAMMED YASSINE",
-            "EL KANNANE HAJAR", "ELFADL AYMAN", "ELMASSAOUDI SAIDA", "ELMOUSSAOUI NOURA", "ES-SELYMY NIAMA",
-            "FATINE CHAAB", "HAIMER BASMA", "HAJAR BARRADAH", "HAJAR FADLI", "HARROU ANASS",
-            "HIBA EL AOMARI", "HIBA NASSI", "ILHAM GOUROU", "ISSAM ELHADJ", "JAWHAR ZAINAB",
-            "KROUTI KHADIJA", "LESA MWABA EMMANUEL", "MOHAMED BARBACH", "MOUAD ASSIA", "RIM MOURAFI",
-            "ROEYA OUCHTANE", "ROUIZI NAJOUA", "SAHL NIZAR", "SALIM GOURAGUINE", "SALMA MOUCHTAHI",
-            "SEFFAR MOHAMED", "WISSAL BELLANAYA", "WISSAL EL HALLAOUI", "YASSINE GOUCH", "YOUSSEF BOUKTIB"
-        ]
-    },
-    {
-        year: "2024-2025",
-        name: "PROMOTION 2025",
-        students: [
-            "ABOULANOUAR YASINE", "AIT ELHANAFI SOUHAIL", "AKMACH YOUSSEF", "ALIANE MOHAMED REDA", "ALKHATIB SARAH",
-            "AMESKOUK ACHRAF", "AMINE IKRAM", "AZIZI MOHAMMED YASSER", "BAHMANE AYA", "BARABAD SOUAD",
-            "BASSIR IMRANE", "BELAHCEN OUSSAMA", "BENDHI KHADIJA", "BENKADDA MARWA", "BOUCHKARA NASSIMA",
-            "BOUKATE LOUBNA", "CHAIHAB AMINA", "CHAKIR MAJDOULINE", "CHARAFI ASSIA", "CHKAIFI ZINEB",
-            "DAMIRI OUMAIMA", "DELLA HOUSSAM", "EL ASRI OUMAIMA", "EL BACHA ASMA", "EL BERKAOUI JIHANE",
-            "EL FAKHAR ZAKARIA", "EL FATTANI ABDESSAMAD", "ELHAMRAOUI KAWTAR", "EL MANNER HAYAT", "EL YAAKABI MALAK",
-            "EL YAHYAOUI IKRAM", "ER-RAJA KHADIJA", "ESARFOUHI SALMA", "EZZOUHAIRI MERYEM", "FADDOULI IBTISSAM",
-            "FADLI MOHAMMED", "GUENTITI MAROUA", "HARIMECH SIHAM", "JELLOULI YOUNESS", "KHOMALLI CHOUAIB",
-            "LAHNITE AICHA", "LASMAR HIBATALLAH", "LEHOUIZI ABDELKARIM", "MADANI YASSINE", "MEZOUAR WISSAL",
-            "MOUNAAM SALMA", "MOURADI AYOUB", "MOUSTATIR LAMIAA", "NAJI NASSIM", "OUANZI OUMAYMA",
-            "RHOUZALI FATIMA EZZAHRA", "SAADI LOUBNA", "SANOUSSI IMAD", "SEIV SAVA", "SENHAJI HAMIM AYA",
-            "TALBI WISSAL", "TIGHAZOUI FATIMA-ZAHRA", "TOURE SALMATA", "ZARRI AMINE"
-        ]
-    },
-]
+import promotions from "@/data/promotions.json"
 
 export default function PromotionsPage() {
     const [activePromo, setActivePromo] = useState(promotions[0].year)
@@ -59,13 +24,16 @@ export default function PromotionsPage() {
             <Navbar />
 
             {/* Hero Section */}
-            <section className="bg-primary py-20 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none">
-                    <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
-                    </svg>
-                </div>
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="relative py-20 overflow-hidden bg-primary">
+                <Image
+                    src="/images/hero.png"
+                    alt="Promotions Hero"
+                    fill
+                    className="object-cover"
+                    priority
+                />
+                <div className="absolute inset-0 bg-primary/40" />
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-2 text-white/60 text-xs mb-4">
                         <Link href="/" className="hover:text-white">Accueil</Link>
                         <ChevronRight className="w-3 h-3" />

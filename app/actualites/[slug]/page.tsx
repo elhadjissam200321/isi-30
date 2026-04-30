@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import Navbar from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { ArrowLeft, Calendar, User, Eye, Clock } from "lucide-react"
+import { ChevronRight, Calendar, User, Eye, Clock } from "lucide-react"
 import { ShareButtons } from "@/components/share-buttons"
 import { incrementViews } from "@/lib/views"
 import { articles } from "@/data/articles"
@@ -49,9 +49,9 @@ export default async function ArticleDetail({ params }: Props) {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-muted-foreground text-xs mb-4">
               <Link href="/" className="hover:text-primary transition-colors">Accueil</Link>
-              <ArrowLeft className="w-3 h-3" />
+              <ChevronRight className="w-3 h-3" />
               <Link href="/actualites" className="hover:text-primary transition-colors">Actualités</Link>
-              <ArrowLeft className="w-3 h-3 rotate-180" />
+              <ChevronRight className="w-3 h-3" />
               <span className="text-foreground font-medium truncate max-w-[200px] sm:max-w-none">{article.title}</span>
             </div>
             <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -100,11 +100,11 @@ export default async function ArticleDetail({ params }: Props) {
             <article className="min-w-0">
               <div
                 className="prose prose-lg max-w-none 
-                  prose-headings:font-serif prose-headings:font-bold prose-headings:text-foreground
-                  prose-p:text-muted-foreground prose-p:leading-relaxed
+                  prose-headings:font-serif prose-headings:font-bold prose-headings:text-foreground prose-headings:mt-8 prose-headings:mb-4
+                  prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-4
                   prose-strong:text-foreground prose-strong:font-bold
-                  prose-blockquote:border-primary prose-blockquote:bg-secondary/50 prose-blockquote:py-1 prose-blockquote:px-5 prose-blockquote:rounded-r-lg
-                  prose-li:text-muted-foreground"
+                  prose-blockquote:border-primary prose-blockquote:bg-secondary/50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:my-8
+                  prose-ul:my-6 prose-li:text-muted-foreground prose-li:marker:text-primary"
                 dangerouslySetInnerHTML={{ __html: article.content }}
               />
 

@@ -72,8 +72,8 @@ export default function ProgrammeManager() {
 
     if (loading || !data) return <div className="p-8 text-slate-400 text-center">Chargement...</div>
 
-    const renderModuleEditor = (module: Module, onChange: (updated: Module) => void, onRemove: () => void) => (
-        <div className="flex gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700 items-center">
+    const renderModuleEditor = (module: Module, index: number, onChange: (updated: Module) => void, onRemove: () => void) => (
+        <div key={index} className="flex gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700 items-center">
             <div className="flex-1 grid grid-cols-2 gap-2">
                 <input
                     value={module.name}
@@ -252,6 +252,7 @@ export default function ProgrammeManager() {
                                                     {sem.modules.map((mod, i) => (
                                                         renderModuleEditor(
                                                             mod,
+                                                            i,
                                                             (updated) => {
                                                                 const next = { ...data.semesterModules }
                                                                 next[semKey].modules[i] = updated
@@ -278,6 +279,7 @@ export default function ProgrammeManager() {
                                                             {opt.modules.map((mod, i) => (
                                                                 renderModuleEditor(
                                                                     mod,
+                                                                    i,
                                                                     (updated) => {
                                                                         const next = { ...data.semesterModules }
                                                                         next[semKey].options![optIdx].modules[i] = updated
@@ -302,6 +304,7 @@ export default function ProgrammeManager() {
                                                         {sem.commonModules?.map((mod, i) => (
                                                             renderModuleEditor(
                                                                 mod,
+                                                                i,
                                                                 (updated) => {
                                                                     const next = { ...data.semesterModules }
                                                                     next[semKey].commonModules![i] = updated

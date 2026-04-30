@@ -1,44 +1,8 @@
 import Image from "next/image"
 
-const COMPANIES = [
-  {
-    name: "Oracle",
-    logo: "/images/entreprises/Oracle_logo.svg.png",
-  },
-  {
-    name: "Data Protect",
-    logo: "/images/entreprises/logo_dataprotect.png",
-  },
-  {
-    name: "Spotify",
-    logo: "/images/entreprises/3840px-Spotify_logo_without_text.svg.png",
-  },
-  {
-    name: "Docaposte",
-    logo: "/images/entreprises/3840px-Logo-docaposte.svg.png",
-  },
-  {
-    name: "Deloitte",
-    logo: "/images/entreprises/960px-Logo_of_Deloitte.svg.png",
-  },
-  {
-    name: "Société Générale",
-    logo: "/images/entreprises/societe-generale-logo_societe-generale-logo_.png",
-  },
-  {
-    name: "OCP Group",
-    logo: "/images/entreprises/960px-OCP_Group.svg.png",
-  },
-  {
-    name: "BMCI",
-    logo: "/images/entreprises/BMCI_BL_F_Q.png",
-  },
-]
-
-// Duplicate for seamless loop
-const TRACK = [...COMPANIES, ...COMPANIES]
-
-export default function AlumniCarousel() {
+export default function AlumniCarousel({ companies = [] }: { companies?: any[] }) {
+  // Duplicate for seamless loop
+  const TRACK = [...companies, ...companies]
   return (
     <section className="py-16 bg-white border-y border-border overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">

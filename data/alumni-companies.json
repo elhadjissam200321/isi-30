@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Oracle",
+    "logo": "/images/entreprises/Oracle_logo.svg.png"
+  },
+  {
+    "name": "Data Protect",
+    "logo": "/images/entreprises/logo_dataprotect.png"
+  },
+  {
+    "name": "Spotify",
+    "logo": "/images/entreprises/3840px-Spotify_logo_without_text.svg.png"
+  },
+  {
+    "name": "Docaposte",
+    "logo": "/images/entreprises/3840px-Logo-docaposte.svg.png"
+  },
+  {
+    "name": "Deloitte",
+    "logo": "/images/entreprises/960px-Logo_of_Deloitte.svg.png"
+  },
+  {
+    "name": "Société Générale",
+    "logo": "/images/entreprises/societe-generale-logo_societe-generale-logo_.png"
+  },
+  {
+    "name": "OCP Group",
+    "logo": "/images/entreprises/960px-OCP_Group.svg.png"
+  },
+  {
+    "name": "BMCI",
+    "logo": "/images/entreprises/BMCI_BL_F_Q.png"
+  }
+]

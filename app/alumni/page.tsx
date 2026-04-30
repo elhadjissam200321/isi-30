@@ -5,16 +5,16 @@ import { ChevronRight, Briefcase, MapPin, GraduationCap, Quote, Linkedin } from 
 
 function PageHero({ title, subtitle, breadcrumb }: { title: string; subtitle: string; breadcrumb: string }) {
   return (
-    <section className="bg-primary py-14 relative overflow-hidden">
-      <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        {[[10, 10, 90, 90], [90, 10, 10, 90], [50, 0, 50, 100], [0, 50, 100, 50]].map(([x1, y1, x2, y2], i) => (
-          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="white" strokeWidth="0.5" />
-        ))}
-        {[[20, 20], [80, 20], [50, 50], [20, 80], [80, 80]].map(([cx, cy], i) => (
-          <circle key={i} cx={cx} cy={cy} r="1.5" fill="white" />
-        ))}
-      </svg>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-14 overflow-hidden bg-primary">
+      <Image
+        src="/images/hero.png"
+        alt="Alumni Hero"
+        fill
+        className="object-cover"
+        priority
+      />
+      <div className="absolute inset-0 bg-primary/40" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 text-white/60 text-xs mb-4">
           <Link href="/" className="hover:text-white">Accueil</Link>
           <ChevronRight className="w-3 h-3" />

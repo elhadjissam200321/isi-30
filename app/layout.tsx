@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { Preloader } from '@/components/preloader'
 import './globals.css'
+import config from "@/data/site-config.json"
 
 const inter = { variable: '--font-inter' }
 const arima = { variable: '--font-arima' }
@@ -46,6 +47,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
+      <head>
+        <style suppressHydrationWarning dangerouslySetInnerHTML={{ __html: (config as any).customCss || "" }} />
+      </head>
       <body className={`${inter.variable} ${arima.variable} font-sans antialiased`} suppressHydrationWarning>
         <Preloader />
         {children}
@@ -60,7 +64,7 @@ export default function RootLayout({
                     if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
                   });
                 }, { threshold: 0.1 });
-                function init(){ document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(function(el){ io.observe(el); }); }
+                function init(){ document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale,.shutter-reveal').forEach(function(el){ io.observe(el); }); }
                 if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', init); } else { init(); }
               })();
             `,

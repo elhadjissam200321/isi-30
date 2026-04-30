@@ -13,7 +13,7 @@ export default function Navbar() {
   const [navLinks, setNavLinks] = useState<{ href: string, label: string }[]>([
     { href: "/", label: "Accueil" },
     { href: "/programme", label: "Programme" },
-    { href: "https://master-isiv10.vercel.app/alumni", label: "Promotions" },
+    { href: "/promotions", label: "Promotions" },
     { href: "/actualites", label: "Actualités" },
     { href: "/enseignants", label: "Enseignants" },
     { href: "/contact", label: "Contact" },
@@ -62,13 +62,17 @@ export default function Navbar() {
   return (
     <>
       <header className={cn(
-        "w-full z-50 transition-all duration-300",
-        isTransparent ? "absolute top-0 left-0" : "sticky top-0 shadow-sm"
+        "w-full z-50 transition-all duration-500 ease-in-out",
+        isHome 
+          ? (isTransparent ? "absolute top-0 left-0" : "fixed top-0 left-0 bg-card/80 backdrop-blur-md shadow-md border-b border-border")
+          : "sticky top-0 bg-card shadow-sm border-b border-border"
       )}>
         {/* Top bar */}
         <div className={cn(
-          "text-xs py-2 px-4 hidden md:block transition-all duration-300",
-          isTransparent ? "bg-black/10 text-white/90 backdrop-blur-sm" : "bg-primary text-primary-foreground"
+          "text-xs px-4 hidden md:block transition-all duration-500 ease-in-out",
+          isTransparent 
+            ? "bg-black/10 text-white/90 backdrop-blur-sm py-2 opacity-100" 
+            : "bg-primary/5 text-primary/80 py-2 border-b border-primary/10"
         )}>
           <div className="mx-auto flex items-center justify-between">
             <span>Faculté des Sciences Aïn Chock – Université Hassan II de Casablanca</span>
@@ -90,19 +94,22 @@ export default function Navbar() {
 
         {/* Main nav */}
         <nav className={cn(
-          "border-b transition-all duration-300",
+          "transition-all duration-500 ease-in-out",
           isTransparent 
-            ? "bg-transparent border-white/10" 
-            : "bg-card border-border shadow-sm"
+            ? "bg-transparent border-b border-white/10" 
+            : "bg-transparent"
         )}>
           <div className="mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-24">
+            <div className={cn(
+              "flex items-center justify-between transition-all duration-500",
+              scrolled ? "h-20" : "h-24"
+            )}>
               {/* Logo area */}
               <div className="flex items-center h-full -ml-4 sm:-ml-6 lg:-ml-8">
                 <Link href="/" className="flex items-center h-full">
                   {/* FSAC Logo Area */}
                   <div className={cn(
-                    "hidden lg:flex items-center h-full px-12 border-r transition-colors",
+                    "hidden xl:flex items-center h-full px-12 border-r transition-all duration-500",
                     isTransparent ? "border-white/10" : "border-border/30"
                   )}>
                     <Image
@@ -110,7 +117,10 @@ export default function Navbar() {
                       alt="FSAC Logo"
                       width={120}
                       height={60}
-                      className="h-16 w-auto object-contain transition-all"
+                      className={cn(
+                        "w-auto object-contain transition-all duration-500",
+                        scrolled ? "h-12" : "h-16"
+                      )}
                       priority
                     />
                   </div>
@@ -121,7 +131,10 @@ export default function Navbar() {
                       alt="Master ISI Logo"
                       width={180}
                       height={90}
-                      className="w-[170px] h-auto"
+                      className={cn(
+                        "h-auto transition-all duration-500",
+                        scrolled ? "w-[140px]" : "w-[170px]"
+                      )}
                       priority
                     />
                   </div>
@@ -135,7 +148,7 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "px-3 py-2 text-sm font-bold rounded-lg transition-all font-serif uppercase tracking-wider",
+                      "px-3 py-2 text-sm font-bold rounded-lg transition-all duration-300 font-serif uppercase tracking-wider",
                       pathname === link.href
                         ? (isTransparent ? "text-white bg-white/20" : "text-primary bg-secondary")
                         : (isTransparent ? "text-white/80 hover:text-white hover:bg-white/10" : "text-foreground hover:text-primary hover:bg-secondary")

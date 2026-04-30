@@ -2,19 +2,20 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Brain, LayoutDashboard, FileText, Users, Handshake, LogOut, ExternalLink, Menu, X, Link as LinkIcon, GraduationCap, Settings, BookOpen, AlertCircle } from "lucide-react"
+import { Brain, LayoutDashboard, FileText, Users, Handshake, LogOut, ExternalLink, Menu, X, Link as LinkIcon, GraduationCap, Settings, BookOpen, AlertCircle, Building2 } from "lucide-react"
 import { useState } from "react"
+import { createClient } from "@/utils/supabase/client"
 
 const navItems = [
     { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
+    { label: "Pages", href: "/admin/pages", icon: LayoutDashboard },
     { label: "Actualités", href: "/admin/articles", icon: FileText },
+    { label: "Promotions", href: "/admin/promotions", icon: GraduationCap },
     { label: "Enseignants", href: "/admin/enseignants", icon: Users },
     { label: "Partenaires", href: "/admin/partenaires", icon: Handshake },
-    { label: "Alumni", href: "/admin/alumni", icon: GraduationCap },
+    { label: "Entreprises Alumni", href: "/admin/alumni-companies", icon: Building2 },
     { label: "Programme", href: "/admin/programme", icon: BookOpen },
-    { label: "Admission", href: "/admin/admission", icon: AlertCircle },
-    { label: "Accueil", href: "/admin/homepage", icon: LayoutDashboard },
-    { label: "Paramètres", href: "/admin/contact", icon: Settings },
+    { label: "Paramètres", href: "/admin/settings", icon: Settings },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -23,7 +24,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const logout = async () => {
-        await fetch("/api/admin/auth", { method: "DELETE" })
+        const supabase = createClient()
+        await supabase.auth.signOut()
         router.push("/admin/login")
         router.refresh()
     }

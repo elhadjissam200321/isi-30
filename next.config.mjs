@@ -47,7 +47,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://fsac.univh2c.ma https://images.unsplash.com; font-src 'self'; connect-src 'self' https://va.vercel-scripts.com; frame-src https://www.google.com https://maps.google.com;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://fsac.univh2c.ma https://images.unsplash.com https://gfdlfsncbnxklprwmwfi.supabase.co; font-src 'self'; connect-src 'self' https://va.vercel-scripts.com https://gfdlfsncbnxklprwmwfi.supabase.co; frame-src https://www.google.com https://maps.google.com;",
           },
         ],
       },

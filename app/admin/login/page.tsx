@@ -3,31 +3,34 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { Lock, Eye, EyeOff } from "lucide-react"
+import { Lock, Eye, EyeOff, Mail } from "lucide-react"
+import { createClient } from "@/utils/supabase/client"
 
 export default function AdminLoginPage() {
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [show, setShow] = useState(false)
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+    const supabase = createClient()
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
         setError("")
-        const res = await fetch("/api/admin/auth", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password }),
+
+        const { error: authError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
         })
-        if (res.ok) {
+
+        if (authError) {
+            setError(authError.message)
+            setLoading(false)
+        } else {
             router.push("/admin")
             router.refresh()
-        } else {
-            const data = await res.json()
-            setError(data.error || "Erreur de connexion")
-            setLoading(false)
         }
     }
 
@@ -57,13 +60,28 @@ export default function AdminLoginPage() {
                     </h2>
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div>
+                            <label className="block text-sm text-slate-400 mb-1.5">Email</label>
+                            <div className="relative">
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full bg-slate-900 border border-slate-600 rounded-xl pl-12 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+                                    placeholder="admin@example.com"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div>
                             <label className="block text-sm text-slate-400 mb-1.5">Mot de passe</label>
                             <div className="relative">
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                                 <input
                                     type={show ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-slate-900 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 pr-12 transition"
+                                    className="w-full bg-slate-900 border border-slate-600 rounded-xl pl-12 pr-12 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
                                     placeholder="••••••••"
                                     required
                                 />
