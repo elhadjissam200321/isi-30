@@ -1,48 +1,142 @@
 import { NextResponse } from "next/server"
-import { readFileSync, writeFileSync } from "fs"
-import { join } from "path"
+import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
 
-function getPath() { return join(process.cwd(), "data", "teachers.json") }
-function read() { return JSON.parse(readFileSync(getPath(), "utf-8")) }
-function write(data: unknown) { writeFileSync(getPath(), JSON.stringify(data, null, 2), "utf-8") }
+async function isAuthenticated() {
+    const cookieStore = await cookies()
+    return cookieStore.get("admin_session")?.value === "authenticated"
+}
 
 export async function GET() {
-    return NextResponse.json(read())
+    try {
+        const supabase = await createClient()
+        const { data, error } = await supabase
+            .from('teachers')
+            .select('*')
+            .order('created_at', { ascending: false })
+        
+        if (error) throw error
+        
+        // Transform database rows to match expected JSON structure
+        const transformedData = data.map((teacher: any) => ({
+            id: teacher.id,
+            name: teacher.name,
+            title: teacher.title,
+            role: teacher.role,
+            speciality: teacher.speciality,
+            color: teacher.color,
+            photo: teacher.photo
+        }))
+        
+        return NextResponse.json(transformedData)
+    } catch (error) {
+        console.error('Error fetching teachers:', error)
+        return NextResponse.json([], { status: 500 })
+    }
 }
 
 export async function POST(req: Request) {
-    const cookieStore = await cookies()
-    if (cookieStore.get("admin_session")?.value !== "authenticated")
+    if (!(await isAuthenticated())) {
         return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
-    const body = await req.json()
-    const list = read()
-    const newId = list.length > 0 ? Math.max(...list.map((t: { id: number }) => t.id)) + 1 : 1
-    const item = { ...body, id: newId }
-    list.push(item)
-    write(list)
-    return NextResponse.json(item, { status: 201 })
+    }
+    
+    try {
+        const supabase = await createClient()
+        const body = await req.json()
+        
+        const { data, error } = await supabase
+            .from('teachers')
+            .insert({
+                name: body.name,
+                title: body.title,
+                role: body.role,
+                speciality: body.speciality,
+                color: body.color,
+                photo: body.photo
+            })
+            .select()
+            .single()
+        
+        if (error) throw error
+        
+        const transformedData = {
+            id: data.id,
+            name: data.name,
+            title: data.title,
+            role: data.role,
+            speciality: data.speciality,
+            color: data.color,
+            photo: data.photo
+        }
+        
+        return NextResponse.json(transformedData, { status: 201 })
+    } catch (error) {
+        console.error('Error creating teacher:', error)
+        return NextResponse.json({ error: "Failed to create teacher" }, { status: 500 })
+    }
 }
 
 export async function PUT(req: Request) {
-    const cookieStore = await cookies()
-    if (cookieStore.get("admin_session")?.value !== "authenticated")
+    if (!(await isAuthenticated())) {
         return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
-    const body = await req.json()
-    const list = read()
-    const idx = list.findIndex((t: { id: number }) => t.id === body.id)
-    if (idx === -1) return NextResponse.json({ error: "Non trouvé" }, { status: 404 })
-    list[idx] = { ...list[idx], ...body }
-    write(list)
-    return NextResponse.json(list[idx])
+    }
+    
+    try {
+        const supabase = await createClient()
+        const body = await req.json()
+        
+        const { data, error } = await supabase
+            .from('teachers')
+            .update({
+                name: body.name,
+                title: body.title,
+                role: body.role,
+                speciality: body.speciality,
+                color: body.color,
+                photo: body.photo
+            })
+            .eq('id', body.id)
+            .select()
+            .single()
+        
+        if (error) throw error
+        
+        const transformedData = {
+            id: data.id,
+            name: data.name,
+            title: data.title,
+            role: data.role,
+            speciality: data.speciality,
+            color: data.color,
+            photo: data.photo
+        }
+        
+        return NextResponse.json(transformedData)
+    } catch (error) {
+        console.error('Error updating teacher:', error)
+        return NextResponse.json({ error: "Failed to update teacher" }, { status: 500 })
+    }
 }
 
 export async function DELETE(req: Request) {
-    const cookieStore = await cookies()
-    if (cookieStore.get("admin_session")?.value !== "authenticated")
+    if (!(await isAuthenticated())) {
         return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
-    const { id } = await req.json()
-    const list = read()
-    write(list.filter((t: { id: number }) => t.id !== id))
-    return NextResponse.json({ ok: true })
+    }
+    
+    try {
+        const supabase = await createClient()
+        const { id } = await req.json()
+        
+        const { error } = await supabase
+            .from('teachers')
+            .delete()
+            .eq('id', id)
+        
+        if (error) throw error
+        
+        return NextResponse.json({ ok: true })
+    } catch (error) {
+        console.error('Error deleting teacher:', error)
+        return NextResponse.json({ error: "Failed to delete teacher" }, { status: 500 })
+    }
 }

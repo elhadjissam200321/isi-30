@@ -114,21 +114,21 @@ export default async function HomePage() {
 
         <div className="relative z-10 max-w-7xl px-4 sm:px-6 lg:px-8 pt-40 pb-20">
           <div className="max-w-3xl">
-            <div suppressHydrationWarning className="reveal-scale delay-100 inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/80 text-xs font-medium px-3 py-1.5 rounded-full mb-6 backdrop-blur-sm">
+            <div suppressHydrationWarning className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/80 text-xs font-medium px-3 py-1.5 rounded-full mb-6 backdrop-blur-sm">
               <Cpu className="w-3.5 h-3.5" />
               {homepage.hero.badge}
             </div>
-            <h1 suppressHydrationWarning className="reveal delay-300 font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight text-balance mb-6">
+            <h1 suppressHydrationWarning className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight text-balance mb-6">
               {homepage.hero.title}
             </h1>
-            <p suppressHydrationWarning className="reveal delay-500 text-white/80 text-lg leading-relaxed max-w-2xl mb-8">
+            <p suppressHydrationWarning className="text-white/80 text-lg leading-relaxed max-w-2xl mb-8">
               {homepage.hero.subtitle || (
                 <>
                   {config.facultyName}, {config.universityName}
                 </>
               )}
             </p>
-            <div suppressHydrationWarning className="reveal delay-700 flex flex-wrap gap-4">
+            <div suppressHydrationWarning className="flex flex-wrap gap-4">
               <a
                 href="https://isi.badrabba.com/"
                 target="_blank"
@@ -267,11 +267,6 @@ export default async function HomePage() {
               <Quote className="w-32 h-32 text-primary" />
             </div>
             <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
-              <Reveal direction="left" className="shrink-0">
-                <div className="w-48 h-48 rounded-2xl bg-primary flex items-center justify-center text-white text-5xl font-serif font-bold shadow-xl">
-                  {homepage.coordinator.initials}
-                </div>
-              </Reveal>
               <Reveal direction="right" delay={200}>
                 <div>
                   <span className="text-accent text-sm font-semibold uppercase tracking-widest">{homepage.coordinator.badge}</span>

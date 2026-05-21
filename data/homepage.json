@@ -30,7 +30,7 @@
         },
         {
             "icon": "BarChart",
-            "title": "Science des Données (DS)",
+            "title": "Data Science (DS)",
             "desc": "Expertise en analyse de données massives, Big Data, et extraction de connaissances pour l'aide à la décision.",
             "color": "bg-teal-600"
         },
@@ -74,8 +74,7 @@
         "badge": "Mot du Coordonnateur",
         "name": "Pr. ERRAIS MOHAMMED",
         "title": "Coordonnateur du Master ISI",
-        "message": "Notre mission au sein du Master ISI est de former une nouvelle génération d'experts capables de relever les défis de l'Intelligence Artificielle. En alliant rigueur académique et immersion professionnelle, nous offrons à nos étudiants les clés de la réussite dans un monde en pleine mutation numérique.",
-        "initials": "EM"
+        "message": "Notre mission au sein du Master ISI est de former une nouvelle génération d'experts capables de relever les défis de l'Intelligence Artificielle. En alliant rigueur académique et immersion professionnelle, nous offrons à nos étudiants les clés de la réussite dans un monde en pleine mutation numérique."
     },
     "alumni_section": {
         "badge": "Témoignages",

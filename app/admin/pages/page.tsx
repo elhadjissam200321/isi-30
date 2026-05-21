@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { LayoutDashboard, FileText, Users, Handshake, BookOpen, Home, Settings } from "lucide-react"
+import { LayoutDashboard, FileText, Users, Handshake, BookOpen, Home, Settings, GraduationCap } from "lucide-react"
 
 const pages = [
     { title: "Page d'accueil", description: "Gérer le hero, les piliers et les sections de l'accueil", href: "/admin/homepage", icon: Home },
@@ -10,6 +10,11 @@ const pages = [
     { title: "Enseignants", description: "Liste du corps professoral", href: "/admin/enseignants", icon: Users },
     { title: "Partenaires", description: "Gérer les logos des partenaires", href: "/admin/partenaires", icon: Handshake },
     { title: "Contact & Footer", description: "Informations de contact et liens du footer", href: "/admin/contact", icon: Settings },
+    { title: "Admission", description: "Gérer les conditions et procédures d'admission", href: "/admin/admission", icon: FileText },
+    { title: "Alumni", description: "Gérer les profils des alumni", href: "/admin/alumni", icon: Users },
+    { title: "Entreprises Alumni", description: "Gérer les logos des entreprises des alumni", href: "/admin/alumni-companies", icon: Handshake },
+    { title: "Promotions", description: "Gérer les promotions et listes d'étudiants", href: "/admin/promotions", icon: GraduationCap },
+    { title: "Paramètres", description: "Réseaux sociaux et CSS personnalisé", href: "/admin/settings", icon: Settings },
 ]
 
 export default function PagesManager() {

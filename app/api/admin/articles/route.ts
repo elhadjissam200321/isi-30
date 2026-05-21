@@ -1,52 +1,100 @@
 import { NextResponse } from "next/server"
-import { readFileSync, writeFileSync } from "fs"
-import { join } from "path"
+import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
 
-function isAuthenticated() {
-    try {
-        const cookieStore = cookies()
-        // @ts-ignore - cookies() is sync in middleware context
-        const c = cookieStore instanceof Promise ? null : cookieStore.get("admin_session")
-        return c?.value === "authenticated"
-    } catch {
-        return false
-    }
-}
-
-function getDataPath() {
-    return join(process.cwd(), "data", "articles.json")
-}
-
-function readArticles() {
-    return JSON.parse(readFileSync(getDataPath(), "utf-8"))
-}
-
-function writeArticles(data: unknown) {
-    writeFileSync(getDataPath(), JSON.stringify(data, null, 2), "utf-8")
+async function isAuthenticated() {
+    const cookieStore = await cookies()
+    return cookieStore.get("admin_session")?.value === "authenticated"
 }
 
 export async function GET() {
-    const articles = readArticles()
-    return NextResponse.json(articles)
+    try {
+        const supabase = await createClient()
+        const { data, error } = await supabase
+            .from('articles')
+            .select('*')
+            .order('created_at', { ascending: false })
+        
+        if (error) throw error
+        
+        // Transform database rows to match expected JSON structure
+        const transformedData = data.map((article: any) => ({
+            id: article.id,
+            slug: article.slug,
+            title: article.title,
+            excerpt: article.excerpt,
+            content: article.content,
+            category: article.category,
+            date: article.date,
+            readTime: article.read_time,
+            author: article.author,
+            image: article.image,
+            views: article.views,
+            featured: article.featured
+        }))
+        
+        return NextResponse.json(transformedData)
+    } catch (error) {
+        console.error('Error fetching articles:', error)
+        return NextResponse.json([], { status: 500 })
+    }
 }
 
 export async function POST(req: Request) {
-    const cookieStore = await cookies()
-    if (cookieStore.get("admin_session")?.value !== "authenticated") {
+    if (!(await isAuthenticated())) {
         return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
     }
-    const body = await req.json()
-    const articles = readArticles()
-    const newId = articles.length > 0 ? Math.max(...articles.map((a: { id: number }) => a.id)) + 1 : 1
-    const slug = body.title
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "")
-    const article = { ...body, id: newId, slug: body.slug || slug, views: 0 }
-    articles.push(article)
-    writeArticles(articles)
-    return NextResponse.json(article, { status: 201 })
+    
+    try {
+        const supabase = await createClient()
+        const body = await req.json()
+        
+        // Generate slug from title if not provided
+        const slug = body.slug || body.title
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "")
+        
+        const { data, error } = await supabase
+            .from('articles')
+            .insert({
+                slug,
+                title: body.title,
+                excerpt: body.excerpt,
+                content: body.content,
+                category: body.category,
+                date: body.date,
+                read_time: body.readTime,
+                author: body.author,
+                image: body.image,
+                views: 0,
+                featured: body.featured || false
+            })
+            .select()
+            .single()
+        
+        if (error) throw error
+        
+        const transformedData = {
+            id: data.id,
+            slug: data.slug,
+            title: data.title,
+            excerpt: data.excerpt,
+            content: data.content,
+            category: data.category,
+            date: data.date,
+            readTime: data.read_time,
+            author: data.author,
+            image: data.image,
+            views: data.views,
+            featured: data.featured
+        }
+        
+        return NextResponse.json(transformedData, { status: 201 })
+    } catch (error) {
+        console.error('Error creating article:', error)
+        return NextResponse.json({ error: "Failed to create article" }, { status: 500 })
+    }
 }

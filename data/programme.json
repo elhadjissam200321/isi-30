@@ -95,7 +95,7 @@
                 },
                 {
                     "key": "sd",
-                    "name": "Science des Données (DS)",
+                    "name": "Data Science (DS)",
                     "color": "bg-teal-600",
                     "modules": [
                         { "name": "Traitement des données multimédia", "prof": "Pr. ANDALOUSSI", "icon": "Database" },
@@ -118,7 +118,8 @@
             "commonModules": [
                 { "name": "Systèmes répartis", "prof": "Pr. KEBIRA", "icon": "Cloud" },
                 { "name": "Architecture Microservice", "prof": "Pr. OUASSIT", "icon": "Network" },
-                { "name": "Apprentissage Automatique (ML)", "prof": "Pr. CHIBA", "icon": "Brain" }
+                { "name": "Apprentissage Automatique (ML)", "prof": "Pr. CHIBA", "icon": "Brain" },
+                { "name": "Intelligence artificielle agentique", "prof": "Pr. Saoudi", "icon": "Brain" }
             ]
         },
         "s4": {
