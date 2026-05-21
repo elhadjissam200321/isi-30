@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/utils/supabase/server"
+import { SUPABASE_CONFIGURED, readJSON } from "@/lib/db"
 
 export async function GET() {
+    if (!SUPABASE_CONFIGURED) {
+        return NextResponse.json(readJSON("admission.json") || {})
+    }
     try {
         const supabase = await createClient()
         const { data, error } = await supabase

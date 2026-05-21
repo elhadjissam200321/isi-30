@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
+import { SUPABASE_CONFIGURED, readJSON } from "@/lib/db"
 
 async function isAuthenticated() {
     const cookieStore = await cookies()
@@ -8,6 +9,9 @@ async function isAuthenticated() {
 }
 
 export async function GET() {
+    if (!SUPABASE_CONFIGURED) {
+        return NextResponse.json(readJSON("articles.json") || [])
+    }
     try {
         const supabase = await createClient()
         const { data, error } = await supabase
